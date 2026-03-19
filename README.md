@@ -21,13 +21,14 @@
 ## Features
 
 - **Property Listings** — Browse, search, filter, and sort properties for sale or rent
-- **Map View** — Interactive Leaflet map with price pins; pan/zoom to filter listings by bounding box
+- **Map View** — Interactive Leaflet map with red pin markers; pan/zoom to filter listings by bounding box
 - **Advanced Filters** — Type, listing type, city, bedrooms, bathrooms, price range
 - **Image Uploads** — Cover image + gallery with storage via Laravel public disk
 - **Favorite Properties** — Toggle heart icon to save/unsave listings
 - **Booking Requests** — Request a viewing or rental booking with date selection
 - **Owner Dashboard** — Accept/reject bookings, manage own listings
 - **Authentication** — Register/login with Sanctum token auth
+- **AI Chatbot Assistant** — Floating widget that understands natural language queries (e.g. "2 bedroom condo in Makati for rent"), fetches live results from the API, and shows property cards inline with quick-reply buttons
 
 ---
 
