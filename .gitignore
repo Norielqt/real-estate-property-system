@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files (NEVER commit these)
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.backup
+
+# Build output
+frontend/dist/
+frontend/build/
+
+# Laravel
+backend/bootstrap/cache/*.php
+backend/storage/logs/*.log
+backend/storage/framework/cache/data/
+backend/storage/framework/sessions/
+backend/storage/framework/views/
+backend/public/storage
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Misc
+*.log
+npm-debug.log*
