@@ -11,6 +11,11 @@ class PropertySeeder extends Seeder
 {
     public function run(): void
     {
+        // Skip if already seeded to prevent duplicates on container restarts
+        if (\App\Models\Property::count() > 0) {
+            return;
+        }
+
         $owner = User::firstOrCreate(
             ['email' => 'owner@realestate.com'],
             ['name' => 'Demo Owner', 'password' => Hash::make('password')]
