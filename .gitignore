@@ -19,7 +19,7 @@ backend/bootstrap/cache/*.php
 backend/storage/logs/*.log
 backend/storage/framework/cache/data/
 backend/storage/framework/sessions/
-backend/storage/framework/views/
+backend/storage/framework/views/*.php
 backend/public/storage
 backend/storage/*.key
 backend/.phpunit.cache
