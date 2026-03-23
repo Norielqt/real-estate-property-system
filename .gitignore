@@ -8,6 +8,7 @@ vendor/
 .env.*.local
 backend/.env
 backend/.env.backup
+backend/.env.production
 
 # Build output
 frontend/dist/
@@ -20,6 +21,9 @@ backend/storage/framework/cache/data/
 backend/storage/framework/sessions/
 backend/storage/framework/views/
 backend/public/storage
+backend/storage/*.key
+backend/.phpunit.cache
+backend/.phpunit.result.cache
 
 # OS
 .DS_Store
@@ -34,3 +38,4 @@ Thumbs.db
 # Misc
 *.log
 npm-debug.log*
+yarn-error.log
