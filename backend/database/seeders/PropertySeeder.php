@@ -47,7 +47,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => false,
                 'is_featured'  => true,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
+                'cover_image'  => '/images/properties/modern-family-home.webp',
                 'amenities'    => ['Swimming Pool', 'Garden', 'Security System', 'Solar Panels'],
             ],
             [
@@ -70,7 +70,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => true,
                 'is_featured'  => true,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80',
+                'cover_image'  => '/images/properties/cozy-studio-makati.webp',
                 'amenities'    => ['Gym', 'Pool', 'Concierge', 'CCTV', 'Smart Locks'],
             ],
             [
@@ -93,7 +93,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => true,
                 'is_featured'  => true,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80',
+                'cover_image'  => '/images/properties/beach-front-villa.jpg',
                 'amenities'    => ['Private Pool', 'Beach Access', 'Full Kitchen', 'Staff Quarters', 'Outdoor Shower'],
             ],
             [
@@ -116,7 +116,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => true,
                 'is_featured'  => false,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
+                'cover_image'  => '/images/properties/condo-bgc-taguig.webp',
                 'amenities'    => ['Gym', 'Co-working Space', 'Rooftop Deck', 'Laundry'],
             ],
             [
@@ -139,7 +139,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => false,
                 'is_featured'  => false,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
+                'cover_image'  => '/images/properties/farm-lot-batangas.jpg',
                 'amenities'    => ['Road Access', 'Water Source', 'Titled'],
             ],
             [
@@ -162,7 +162,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => false,
                 'is_featured'  => false,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80',
+                'cover_image'  => '/images/properties/spacious-apartment-cebu.jpg',
                 'amenities'    => ['Backup Power', 'CCTV', 'Near Schools'],
             ],
         ];
@@ -238,7 +238,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => false,
                 'is_featured'  => false,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+                'cover_image'  => '/images/properties/townhouse-for-sale-alabang.webp',
                 'amenities'    => ['Clubhouse', 'Basketball Court', 'CCTV', 'Gated Community'],
             ],
             [
@@ -284,7 +284,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => false,
                 'is_featured'  => true,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+                'cover_image'  => '/images/properties/sea-front-lot-palawan.png',
                 'amenities'    => ['Beach Access', 'Sea View', 'Road Access', 'Titled'],
             ],
             [
@@ -307,7 +307,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => false,
                 'is_featured'  => false,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=800&q=80',
+                'cover_image'  => '/images/properties/family-rent-davao.avif',
                 'amenities'    => ['Garden', 'Covered Garage', 'Near Market', 'CCTV'],
             ],
             [
@@ -399,7 +399,7 @@ class PropertySeeder extends Seeder
                 'is_furnished' => false,
                 'is_featured'  => false,
                 'status'       => 'available',
-                'cover_image'  => 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',
+                'cover_image'  => '/images/properties/commercial-lot-pasig.webp',
                 'amenities'    => ['Corner Lot', 'Main Road Frontage', 'Titled', 'Near BGC'],
             ],
             [

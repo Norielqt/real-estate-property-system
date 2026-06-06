@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Home, Map, Heart, List, LogIn, LogOut, PlusCircle, Calendar, Building2, Menu, X, ChevronDown } from 'lucide-react';
+import { Home, Map, Heart, List, LogIn, LogOut, PlusCircle, Calendar, Menu, X, ChevronDown } from 'lucide-react';
 import useAuthStore from '../../store/authStore.js';
 import toast from 'react-hot-toast';
 
@@ -27,25 +27,24 @@ export default function Navbar() {
       <div className="navbar-inner">
         {/* Logo */}
         <Link to="/" className="nav-logo" onClick={closeAll}>
-          <div className="nav-logo-icon"><Building2 size={18} /></div>
-          <span>RealtorHQ</span>
+          <img src="/realtorhq-logo.png" alt="RealtorHQ" style={{ height: 60, objectFit: 'contain' }} />
         </Link>
 
         {/* Desktop center links */}
         <div className="nav-center">
           <NavLink to="/properties" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            <Home size={15} /><span>Listings</span>
+            <Home size={14} /><span>Listings</span>
           </NavLink>
           <NavLink to="/map" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            <Map size={15} /><span>Map</span>
+            <Map size={14} /><span>Map</span>
           </NavLink>
           {user && (
             <>
               <NavLink to="/favorites" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-                <Heart size={15} /><span>Saved</span>
+                <Heart size={14} /><span>Saved</span>
               </NavLink>
               <NavLink to="/my-bookings" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-                <Calendar size={15} /><span>Bookings</span>
+                <Calendar size={14} /><span>Bookings</span>
               </NavLink>
             </>
           )}

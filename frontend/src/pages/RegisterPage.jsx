@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/authStore.js';
 import toast from 'react-hot-toast';
-import { Building2, MapPin, ShieldCheck, Star, Users } from 'lucide-react';
+import { MapPin, ShieldCheck, Star, Users, ArrowLeft } from 'lucide-react';
 
 export default function RegisterPage() {
   const { register: registerUser, loading } = useAuthStore();
@@ -23,7 +23,7 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-split">
-      {/* Left image panel — 70% */}
+      {/* Left image panel */}
       <div className="auth-image">
         <img
           src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1400&q=80"
@@ -38,13 +38,16 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Right form panel — 30% */}
+      {/* Right form panel */}
       <div className="auth-form-panel">
         <div className="auth-form-inner">
 
+          <Link to="/" className="auth-back">
+            <ArrowLeft size={13} /> Back to Home
+          </Link>
+
           <Link to="/" className="auth-form-logo">
-            <div className="auth-form-logo-icon"><Building2 size={14} /></div>
-            RealtorHQ
+            <img src="/realtorhq-logo.png" alt="RealtorHQ" style={{ height: 56, objectFit: 'contain' }} />
           </Link>
 
           <div className="auth-form-header">

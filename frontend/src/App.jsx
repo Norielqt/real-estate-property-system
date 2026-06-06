@@ -1,8 +1,11 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import useAuthStore from './store/authStore.js';
 import Navbar from './components/Layout/Navbar.jsx';
+import Footer from './components/Layout/Footer.jsx';
 import ProtectedRoute from './components/Layout/ProtectedRoute.jsx';
+
+const AUTH_ROUTES = ['/login', '/register'];
 
 // Pages
 import HomePage from './pages/HomePage.jsx';
@@ -21,12 +24,14 @@ import ChatbotWidget from './components/Chatbot/ChatbotWidget.jsx';
 
 export default function App() {
   const fetchMe = useAuthStore((s) => s.fetchMe);
+  const { pathname } = useLocation();
+  const isAuth = AUTH_ROUTES.includes(pathname);
 
   useEffect(() => { fetchMe(); }, []);
 
   return (
     <>
-      <Navbar />
+      {!isAuth && <Navbar />}
       <Routes>
         <Route path="/"                  element={<HomePage />} />
         <Route path="/properties"        element={<PropertiesPage />} />
@@ -44,7 +49,8 @@ export default function App() {
           <Route path="/owner-bookings"    element={<OwnerBookingsPage />} />
         </Route>
       </Routes>
-      <ChatbotWidget />
+      {!isAuth && <Footer />}
+      {!isAuth && <ChatbotWidget />}
     </>
   );
 }

@@ -95,14 +95,18 @@ class PropertyController extends Controller
             'parking_spots'  => 'nullable|integer|min:0',
             'is_furnished'   => 'nullable|boolean',
             'amenities'      => 'nullable|array',
-            'cover_image'    => 'nullable|image|max:5120',
-            'images.*'       => 'nullable|image|max:5120',
+            'cover_image'     => 'nullable|image|max:5120',
+            'cover_image_url' => 'nullable|string|max:500',
+            'images.*'        => 'nullable|image|max:5120',
         ]);
 
         if ($request->hasFile('cover_image')) {
             $data['cover_image'] = $request->file('cover_image')
                 ->store('properties/covers', 'public');
+        } elseif ($request->filled('cover_image_url')) {
+            $data['cover_image'] = $request->input('cover_image_url');
         }
+        unset($data['cover_image_url']);
 
         $data['user_id'] = $request->user()->id;
         $property = Property::create($data);
@@ -163,17 +167,22 @@ class PropertyController extends Controller
             'is_featured'   => 'nullable|boolean',
             'status'        => 'nullable|in:available,sold,rented,pending',
             'amenities'     => 'nullable|array',
-            'cover_image'   => 'nullable|image|max:5120',
-            'images.*'      => 'nullable|image|max:5120',
+            'cover_image'     => 'nullable|image|max:5120',
+            'cover_image_url' => 'nullable|string|max:500',
+            'images.*'        => 'nullable|image|max:5120',
         ]);
 
         if ($request->hasFile('cover_image')) {
-            if ($property->cover_image) {
+            // Only delete old file if it was a storage upload (not a static /images/ path)
+            if ($property->cover_image && !str_starts_with($property->cover_image, '/')) {
                 Storage::disk('public')->delete($property->cover_image);
             }
             $data['cover_image'] = $request->file('cover_image')
                 ->store('properties/covers', 'public');
+        } elseif ($request->filled('cover_image_url')) {
+            $data['cover_image'] = $request->input('cover_image_url');
         }
+        unset($data['cover_image_url']);
 
         $property->update($data);
 

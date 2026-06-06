@@ -1,7 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { Upload, X, MapPin } from 'lucide-react';
+import { Upload, MapPin, Images } from 'lucide-react';
 import LocationPicker from '../Map/LocationPicker.jsx';
+import { imgUrl } from '../../utils/imgUrl.js';
+import { LOCAL_IMAGES } from '../../data/localImages.js';
 
 const TYPES         = ['house', 'apartment', 'condo', 'villa', 'studio', 'land'];
 const LISTING_TYPES = ['sale', 'rent'];
@@ -9,11 +11,13 @@ const STATUSES      = ['available', 'pending', 'sold', 'rented'];
 const AMENITY_OPTIONS = ['Swimming Pool', 'Garden', 'Gym', 'Parking', 'Security System', 'Solar Panels', 'Elevator', 'CCTV', 'Furnished', 'Pet Friendly', 'Beach Access', 'Smart Home', 'Rooftop Deck', 'Co-working Space', 'Laundry'];
 
 export default function PropertyForm({ defaultValues = {}, onSubmit, isLoading }) {
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({ defaultValues });
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm({ defaultValues });
 
   const [coverPreview, setCoverPreview] = useState(
-    defaultValues.cover_image ? `/storage/${defaultValues.cover_image}` : null
+    defaultValues.cover_image ? imgUrl(defaultValues.cover_image) : null
   );
+  const [localImagePath, setLocalImagePath] = useState(null);
+  const [showLibrary, setShowLibrary] = useState(false);
   const [imagesPreviews, setImagesPreviews] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState(defaultValues.amenities ?? []);
   const [lat, setLat] = useState(defaultValues.latitude ?? null);
@@ -21,7 +25,17 @@ export default function PropertyForm({ defaultValues = {}, onSubmit, isLoading }
 
   const handleCoverChange = (e) => {
     const file = e.target.files[0];
-    if (file) setCoverPreview(URL.createObjectURL(file));
+    if (file) {
+      setCoverPreview(URL.createObjectURL(file));
+      setLocalImagePath(null);
+    }
+  };
+
+  const pickLocalImage = (path) => {
+    setLocalImagePath(path);
+    setCoverPreview(path);
+    setShowLibrary(false);
+    setValue('cover_image', undefined);
   };
 
   const handleImagesChange = (e) => {
@@ -49,14 +63,19 @@ export default function PropertyForm({ defaultValues = {}, onSubmit, isLoading }
     Object.entries(data).forEach(([k, v]) => {
       if (k === 'amenities') {
         if (Array.isArray(v)) v.forEach((a) => fd.append('amenities[]', a));
-      } else if (k === 'cover_image' && v instanceof FileList && v.length > 0) {
-        fd.append('cover_image', v[0]);
+      } else if (k === 'cover_image') {
+        if (!localImagePath && v instanceof FileList && v.length > 0) {
+          fd.append('cover_image', v[0]);
+        }
       } else if (k === 'images' && v instanceof FileList) {
         Array.from(v).forEach((f) => fd.append('images[]', f));
       } else if (v !== undefined && v !== null && v !== '') {
         fd.append(k, v);
       }
     });
+    if (localImagePath) {
+      fd.append('cover_image_url', localImagePath);
+    }
     onSubmit(fd);
   };
 
@@ -203,7 +222,7 @@ export default function PropertyForm({ defaultValues = {}, onSubmit, isLoading }
         </div>
       </div>
 
-      {/* Images */}
+      {/* Photos */}
       <div className="card">
         <div className="card-body">
           <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>Photos</h3>
@@ -213,29 +232,99 @@ export default function PropertyForm({ defaultValues = {}, onSubmit, isLoading }
               <label style={{
                 display: 'flex', alignItems: 'center', gap: '.5rem',
                 border: '2px dashed var(--border)', borderRadius: 'var(--radius)',
-                padding: '1.25rem', cursor: 'pointer', background: '#f8fafc',
+                padding: '1.25rem', cursor: 'pointer', background: 'var(--bg)',
               }}>
                 <input type="file" accept="image/*" {...register('cover_image')} onChange={handleCoverChange} style={{ display: 'none' }} />
                 <Upload size={20} style={{ color: 'var(--text-muted)' }} />
-                <span className="text-muted text-sm">Click to upload cover image (max 5MB)</span>
+                <span style={{ fontSize: '.85rem', color: 'var(--text-muted)' }}>Click to upload cover image (max 5MB)</span>
               </label>
+
+              <button
+                type="button"
+                onClick={() => setShowLibrary((v) => !v)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '.35rem',
+                  marginTop: '.5rem', fontSize: '.8rem', fontWeight: 600,
+                  color: showLibrary ? 'var(--text-muted)' : 'var(--primary)',
+                  background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                  transition: 'color 150ms var(--ease-out)',
+                }}
+              >
+                <Images size={14} />
+                {showLibrary ? 'Close Library' : 'Or choose from Property Library'}
+              </button>
+
+              {showLibrary && (
+                <div style={{
+                  display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '.4rem',
+                  marginTop: '.5rem', padding: '.75rem',
+                  background: 'var(--bg-subtle)', borderRadius: 'var(--radius)',
+                  border: '1px solid var(--border)',
+                }}>
+                  {LOCAL_IMAGES.map(({ path, label }) => (
+                    <button
+                      key={path}
+                      type="button"
+                      onClick={() => pickLocalImage(path)}
+                      title={label}
+                      style={{
+                        padding: 0,
+                        border: localImagePath === path
+                          ? '2.5px solid var(--primary)'
+                          : '2px solid transparent',
+                        borderRadius: 'var(--radius-sm)',
+                        overflow: 'hidden',
+                        cursor: 'pointer',
+                        background: 'none',
+                        transition: 'border-color 150ms var(--ease-out), transform 120ms var(--ease-out)',
+                      }}
+                      onMouseEnter={(e) => { if (localImagePath !== path) e.currentTarget.style.borderColor = 'var(--border)'; }}
+                      onMouseLeave={(e) => { if (localImagePath !== path) e.currentTarget.style.borderColor = 'transparent'; }}
+                    >
+                      <img
+                        src={path}
+                        alt={label}
+                        style={{ width: '100%', height: 64, objectFit: 'cover', display: 'block' }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {coverPreview && (
-                <img src={coverPreview} alt="Cover" style={{ width: '100%', maxHeight: 200, objectFit: 'cover', borderRadius: 'var(--radius)', marginTop: '.5rem' }} />
+                <div style={{ position: 'relative', marginTop: '.5rem' }}>
+                  <img
+                    src={coverPreview}
+                    alt="Cover preview"
+                    style={{ width: '100%', maxHeight: 220, objectFit: 'cover', borderRadius: 'var(--radius)' }}
+                  />
+                  {localImagePath && (
+                    <span style={{
+                      position: 'absolute', bottom: 8, left: 8,
+                      background: 'var(--primary)', color: '#fff',
+                      fontSize: '.7rem', fontWeight: 700, padding: '.2rem .55rem',
+                      borderRadius: 99,
+                    }}>
+                      From Library
+                    </span>
+                  )}
+                </div>
               )}
             </div>
+
             <div className="form-group">
               <label className="form-label">Additional Photos</label>
               <label style={{
                 display: 'flex', alignItems: 'center', gap: '.5rem',
                 border: '2px dashed var(--border)', borderRadius: 'var(--radius)',
-                padding: '1.25rem', cursor: 'pointer', background: '#f8fafc',
+                padding: '1.25rem', cursor: 'pointer', background: 'var(--bg)',
               }}>
                 <input type="file" accept="image/*" multiple {...register('images')} onChange={handleImagesChange} style={{ display: 'none' }} />
                 <Upload size={20} style={{ color: 'var(--text-muted)' }} />
-                <span className="text-muted text-sm">Click to upload additional images (multiple allowed)</span>
+                <span style={{ fontSize: '.85rem', color: 'var(--text-muted)' }}>Click to upload additional images (multiple allowed)</span>
               </label>
               {imagesPreviews.length > 0 && (
-                <div className="flex gap-2 flex-wrap mt-2">
+                <div style={{ display: 'flex', gap: '.4rem', flexWrap: 'wrap', marginTop: '.4rem' }}>
                   {imagesPreviews.map((src, i) => (
                     <img key={i} src={src} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 6 }} />
                   ))}
